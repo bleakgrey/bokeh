@@ -3,7 +3,7 @@ using Gtk;
 public class App.View.Base : Box {
 
 	protected Adw.HeaderBar header;
-	public Adw.WindowTitle header_title;
+	protected Adw.WindowTitle header_title;
 	protected Box content;
 	
 	public string subtitle { get; set; default = ""; }

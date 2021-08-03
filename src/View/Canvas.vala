@@ -9,7 +9,10 @@ public class App.View.Canvas : Adw.Bin {
 	construct {
 		notify["file"].connect (on_file_changed);
 
-		picture = new Picture ();
+		picture = new Picture () {
+			halign = Align.CENTER,
+			valign = Align.CENTER
+		};
 		child = picture;
 	}
 

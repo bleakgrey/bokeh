@@ -2,7 +2,7 @@ using Gtk;
 
 public class App.Window.Main : Adw.Window {
 
-	protected File? file { get; set; }
+	public File? file { get; set; }
 	
 	protected Adw.Flap flap_widget;
 	protected App.View.Editor editor;
@@ -16,17 +16,21 @@ public class App.Window.Main : Adw.Window {
 
 		notify["file"].connect (on_file_change);
 
-		editor = new View.Editor ();
+		editor = new View.Editor (this);
 		sidebar = new View.Sidebar ();
 	
 		flap_widget = new Adw.Flap () {
 			content = editor,
 			flap = sidebar,
+			separator = new Separator (Orientation.VERTICAL),
 			flap_position = PackType.END,
-			separator = new Separator (Orientation.VERTICAL)
+			reveal_flap = false,
+			locked = true
 		};
-		flap_widget.bind_property ("folded", editor, "show-controls", BindingFlags.SYNC_CREATE);
-		flap_widget.bind_property ("folded", sidebar, "show-controls", BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+
+		flap_widget.notify["reveal_flap"].connect (update_controls);
+		flap_widget.notify["folded"].connect (update_controls);
+		update_controls ();
 		
 		set_child (flap_widget);
 	}
@@ -40,21 +44,26 @@ public class App.Window.Main : Adw.Window {
 		
 		present ();
 		on_file_change ();
-
-		file = File.new_for_path ("/home/user/Pictures/Screenshot from 2021-07-05 16-18-51.png");
 	}
 
-
-
-	void on_file_change () {
-		if (file == null) {
-			editor.header_title.subtitle = null;
-			editor.file = null;
+	void update_controls () {
+		if (!flap_widget.reveal_flap) {
+			editor.show_controls = true;
 			return;
 		}
+		else {
+			editor.show_controls = flap_widget.folded;
+			sidebar.show_controls = !flap_widget.folded;
+		}
+	}
+
+	void on_file_change () {
+		var is_empty = file == null;
 		
-		editor.header_title.subtitle = file.get_basename ();
 		editor.file = file;
+		flap_widget.locked = is_empty ? true : false;
+		flap_widget.reveal_flap = !is_empty;
+		update_controls ();
 	}
 	
 }

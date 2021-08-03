@@ -12,6 +12,7 @@ public class App.View.Sidebar : View.Base {
 
 	construct {
 		width_request = 340;
+		show_controls = true;
 		add_css_class ("view");
 		header_title.title = _("Filters");
 
@@ -28,8 +29,8 @@ public class App.View.Sidebar : View.Base {
 
 		add_button = new MenuButton () {
 			popover = popover,
-			label = _("New")
-			// icon_name = "list-add-symbolic"
+			//label = _("New")
+			icon_name = "list-add-symbolic"
 		};
 		header.pack_start (add_button);
 
