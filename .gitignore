@@ -1,0 +1,7 @@
+_ignore
+build
+build-aux
+build.sh
+subprojects/libhandy-*
+subprojects/packagecache
+*~

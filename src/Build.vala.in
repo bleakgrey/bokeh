@@ -1,0 +1,48 @@
+public class Build {
+
+	public const string NAME = "@NAME@";
+	public const string VERSION = "@VERSION@";
+	public const string DOMAIN = "@EXEC_NAME@";
+	public const string RESOURCES = "@RESOURCES@";
+	public const string WEBSITE = "@WEBSITE@";
+	public const string SUPPORT_WEBSITE = "@SUPPORT_WEBSITE@";
+	public const string COPYRIGHT = "@COPYRIGHT@";
+	public const string PREFIX = "@PREFIX@";
+
+	public static string SYSTEM_INFO;
+
+	public const string TRANSLATOR = _(" ");
+
+	public static string[] get_authors () {
+		return new string[] {
+			"bleak_grey"
+		};
+	}
+
+	public static string[] get_artists () {
+		return new string[] {
+			"Tobias Bernard"
+		};
+	}
+
+	public static string print_info () {
+		var os_name = get_os_info ("NAME");
+		var os_ver = get_os_info ("VERSION");
+
+		SYSTEM_INFO = @"$NAME $VERSION";
+		SYSTEM_INFO += @"\nRunning on: $os_name $os_ver";
+		SYSTEM_INFO += @"\nBuild prefix: \"$PREFIX\"";
+
+		var lines = SYSTEM_INFO.split ("\n");
+		foreach (unowned string line in lines) {
+			message (line);
+		}
+
+		return SYSTEM_INFO;
+	}
+
+	static string get_os_info (string key) {
+		return GLib.Environment.get_os_info (key) ?? "Unknown";
+	}
+
+}
