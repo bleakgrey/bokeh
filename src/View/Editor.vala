@@ -63,7 +63,7 @@ public class App.View.Editor : View.Base {
 	}
 
 	void on_open_clicked () {
-		window.file = File.new_for_path ("/home/user/Pictures/Screenshot from 2021-07-05 16-18-51.png");
+		window.open_file ();
 	}
 
 	void on_file_changed () {

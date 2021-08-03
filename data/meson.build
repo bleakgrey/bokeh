@@ -12,3 +12,12 @@ install_data(
     install_dir: symbolic_dir,
     rename: meson.project_name() + '-symbolic.svg'
 )
+
+i18n.merge_file(
+    input: 'desktop.in',
+    output: meson.project_name() + '.desktop',
+    po_dir: join_paths(meson.source_root(), 'po'),
+    type: 'desktop',
+    install: true,
+    install_dir: join_paths(get_option('datadir'), 'applications')
+)

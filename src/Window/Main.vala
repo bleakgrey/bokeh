@@ -65,5 +65,30 @@ public class App.Window.Main : Adw.Window {
 		flap_widget.reveal_flap = !is_empty;
 		update_controls ();
 	}
-	
+
+	public void open_file () {
+		var filter = new FileFilter () {
+			name = _("Graphic Files")
+		};
+		filter.add_pixbuf_formats ();
+
+		var chooser = new FileChooserNative (_("Open"), this, Gtk.FileChooserAction.OPEN, null, null);
+		chooser.add_filter (filter);
+		chooser.response.connect (id => {
+			switch (id) {
+				case -3:
+					var selected_file = chooser.get_file ();
+					load_project (selected_file);
+					break;
+			}
+			chooser.unref ();
+		});
+		chooser.ref ();
+		chooser.show ();
+	}
+
+	public void load_project (File project) {
+		file = project;
+	}
+
 }

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Bokeh
+Comment=Non-destructive Photo Editor
+GenericName=Photo Editor
+Exec=com.github.bleakgrey.bokeh %u
+Icon=com.github.bleakgrey.bokeh
+Terminal=false
+Categories=GNOME;GTK;Photo;Edit;
+Keywords=photo;edit;filter;image;
+X-GNOME-Gettext-Domain=com.github.bleakgrey.bokeh
+X-GNOME-UsesNotifications=true	
+# Translators: Do NOT translate or transliterate this text (these are enum types)!
+X-Purism-FormFactor=Workstation;Mobile;
