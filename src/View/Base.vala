@@ -16,6 +16,7 @@ public class App.View.Base : Box {
 		header = new Adw.HeaderBar () {
 			title_widget = header_title
 		};
+		header.add_css_class ("flat");
 		bind_property ("show-controls", header, "show-end-title-buttons", GLib.BindingFlags.SYNC_CREATE);
 		bind_property ("show-controls", header, "show-start-title-buttons", GLib.BindingFlags.SYNC_CREATE);
 		append (header);

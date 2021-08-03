@@ -7,6 +7,9 @@ public class App.View.Sidebar : View.Base {
 	protected View.AddFilter view;
 	protected Popover popover;
 
+	protected ScrolledWindow scroller;
+	protected ListBox list;
+
 	construct {
 		width_request = 340;
 		add_css_class ("view");
@@ -29,6 +32,26 @@ public class App.View.Sidebar : View.Base {
 			// icon_name = "list-add-symbolic"
 		};
 		header.pack_start (add_button);
+
+		list = new ListBox ();
+		list.add_css_class ("content");
+
+		scroller = new ScrolledWindow () {
+			vexpand = true
+		};
+		scroller.child = list;
+		append (scroller);
+	}
+
+	public Sidebar () {
+		add_item ();
+		add_item ();
+		add_item ();
+	}
+
+	public void add_item () {
+		var item = new Widget.LayerRow ();
+		list.append (item);
 	}
 	
 }

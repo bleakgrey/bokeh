@@ -8,7 +8,12 @@ public class App.Window.Main : Adw.Window {
 	protected App.View.Editor editor;
 	protected App.View.Sidebar sidebar;
 
+	protected CssProvider css_provider = new CssProvider ();
+
 	construct {
+		css_provider.load_from_resource (@"$(Build.RESOURCES)app.css");
+		StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
 		notify["file"].connect (on_file_change);
 
 		editor = new View.Editor ();

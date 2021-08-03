@@ -2,6 +2,10 @@
 <gresources>
     <gresource prefix="/com/github/bleakgrey/bokeh/">
 
+        <file alias="app.css">app.css</file>
+
+        <file preprocess="xml-stripblanks">icons/scalable/actions/adw-expander-arrow-symbolic.svg</file>
+
     </gresource>
 </gresources>
 
