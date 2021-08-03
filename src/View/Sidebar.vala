@@ -2,8 +2,9 @@ using Gtk;
 
 public class App.View.Sidebar : View.Base {
 	
-	public class Sidebar () {
+	construct {
 		width_request = 300;
+		add_css_class ("view");
 	}
 	
 }

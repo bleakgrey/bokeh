@@ -2,6 +2,12 @@ using Gtk;
 
 public class App.View.Editor : View.Base {
 
+	public File? file {
+		get { return canvas.file; }
+		set { canvas.file = value; }
+	}
+
+	protected View.Canvas canvas;
 	protected Button open_button;
 	protected Button save_button;
 	
@@ -18,6 +24,12 @@ public class App.View.Editor : View.Base {
 		};
 		save_button.add_css_class ("suggested-action");
 		header.pack_end (save_button);
+
+		canvas = new View.Canvas () {
+			hexpand = true,
+			vexpand = true
+		};
+		content.append (canvas);
 	}
 	
 	public class Editor () {

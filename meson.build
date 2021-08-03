@@ -34,6 +34,7 @@ sources = files(
     'src/View/Base.vala',
     'src/View/Editor.vala',
     'src/View/Sidebar.vala',
+    'src/View/Canvas.vala',
     'src/Window/Main.vala',
 )
 

@@ -3,9 +3,10 @@ using Gtk;
 public class App.View.Base : Box {
 
 	protected Adw.HeaderBar header;
-	protected Adw.WindowTitle header_title;
+	public Adw.WindowTitle header_title;
 	protected Box content;
 	
+	public string subtitle { get; set; default = ""; }
 	public bool show_controls { get; set; default = false; }
 	
 	construct {

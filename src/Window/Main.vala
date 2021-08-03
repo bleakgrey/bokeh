@@ -8,7 +8,9 @@ public class App.Window.Main : Adw.Window {
 	protected App.View.Editor editor;
 	protected App.View.Sidebar sidebar;
 
-	construct {		
+	construct {
+		notify["file"].connect (on_file_change);
+
 		editor = new View.Editor ();
 		sidebar = new View.Sidebar ();
 	
@@ -33,17 +35,21 @@ public class App.Window.Main : Adw.Window {
 		
 		present ();
 		on_file_change ();
+
+		file = File.new_for_path ("/home/user/Pictures/Screenshot from 2021-07-05 16-18-51.png");
 	}
 
 
 
 	void on_file_change () {
-		// if (file == null) {
-		// 	header_title.subtitle = null;
-		// 	return;
-		// }
+		if (file == null) {
+			editor.header_title.subtitle = null;
+			editor.file = null;
+			return;
+		}
 		
-		
+		editor.header_title.subtitle = file.get_basename ();
+		editor.file = file;
 	}
 	
 }
