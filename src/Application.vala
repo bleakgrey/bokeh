@@ -12,6 +12,7 @@ namespace App {
 		}
 
 		public static int main (string[] args) {
+			Intl.setlocale ();
 			Gtk.init ();
 
 			library = new Library ("/home/user/Documents/Apps/bokeh/data/library");

@@ -12,7 +12,7 @@ public class App.View.Editor : View.Base {
 
 	protected Adw.StatusPage empty_state;
 
-	protected View.Canvas canvas;
+	public View.Canvas canvas;
 	protected Button open_button;
 	protected Button save_button;
 	protected MenuButton menu_button;

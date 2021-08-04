@@ -12,16 +12,14 @@ public class App.Window.Main : Adw.Window {
 	}
 	
 	protected Adw.Flap flap_widget;
-	protected App.View.Editor editor;
-	protected App.View.Sidebar sidebar;
+	public App.View.Editor editor;
+	public App.View.Sidebar sidebar;
 
 	protected CssProvider css_provider = new CssProvider ();
 
 	construct {
 		css_provider.load_from_resource (@"$(Build.RESOURCES)app.css");
 		StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-		notify["project"].connect (on_project_changed);
 
 		editor = new View.Editor (this);
 		sidebar = new View.Sidebar ();
@@ -99,8 +97,7 @@ public class App.Window.Main : Adw.Window {
 	}
 
 	public void load_project (File? file) {
-		message ("Loading project: "+file.get_path ());
-		this.project = new Project (file);
+		new Project (file).load (this);
 	}
 
 }

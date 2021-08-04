@@ -1,11 +1,36 @@
 public class App.Layer : Object {
 
-	public string name { get; set; default = _("New Layer"); }
+	// Volatile state
+	protected Window.Main? window { get; set; }
 
+	// Serializable state
+	public string name { get; set; default = _("New Layer"); }
+	public bool visible { get; set; default = true; }
+
+	// Class defaults
 	public bool removable { get; set; default = true; }
 	public bool togglable { get; set; default = true; }
 
-	public virtual void on_added () {}
-	public virtual void on_removed () {}
+	public virtual signal void on_added (Window.Main? win) {
+		message ("Bind layer to window");
+		this.window = win;
+		notify["visible"].connect (redraw);
+	}
+	public virtual signal void on_removed () {
+		message ("Unbind layer from window");
+		this.visible = false;
+		this.window = null;
+		notify["visible"].disconnect (redraw);
+	}
+
+	public virtual void snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
+
+	public void redraw () {
+		window.editor.canvas.queue_draw ();
+	}
+
+	public void remove () {
+		this.window.project.remove_layer (this);
+	}
 
 }
