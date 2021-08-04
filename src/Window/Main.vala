@@ -2,7 +2,14 @@ using Gtk;
 
 public class App.Window.Main : Adw.Window {
 
-	public File? file { get; set; }
+	Project? _project;
+	public Project? project {
+		get { return this._project; }
+		set {
+			this._project = value;
+			on_project_changed ();
+		}
+	}
 	
 	protected Adw.Flap flap_widget;
 	protected App.View.Editor editor;
@@ -14,7 +21,7 @@ public class App.Window.Main : Adw.Window {
 		css_provider.load_from_resource (@"$(Build.RESOURCES)app.css");
 		StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-		notify["file"].connect (on_file_change);
+		notify["project"].connect (on_project_changed);
 
 		editor = new View.Editor (this);
 		sidebar = new View.Sidebar ();
@@ -43,7 +50,9 @@ public class App.Window.Main : Adw.Window {
 		);
 		
 		present ();
-		on_file_change ();
+		on_project_changed ();
+
+		load_project (File.new_for_path ("/home/user/Downloads/tumblr_nm6h3gxZvK1rbc4bko1_640.png"));
 	}
 
 	void update_controls () {
@@ -57,10 +66,12 @@ public class App.Window.Main : Adw.Window {
 		}
 	}
 
-	void on_file_change () {
-		var is_empty = file == null;
+	void on_project_changed () {
+		var is_empty = project == null;
+
+		editor.project = project;
+		sidebar.project = project;
 		
-		editor.file = file;
 		flap_widget.locked = is_empty ? true : false;
 		flap_widget.reveal_flap = !is_empty;
 		update_controls ();
@@ -87,8 +98,9 @@ public class App.Window.Main : Adw.Window {
 		chooser.show ();
 	}
 
-	public void load_project (File project) {
-		file = project;
+	public void load_project (File? file) {
+		message ("Loading project: "+file.get_path ());
+		this.project = new Project (file);
 	}
 
 }

@@ -2,12 +2,12 @@ using Gtk;
 
 public class App.View.Canvas : Adw.Bin {
 
-	public File? file { get; set; }
+	public Project? project { get; set; }
 
-	protected Picture picture;
+	Picture picture;
 
 	construct {
-		notify["file"].connect (on_file_changed);
+		notify["project"].connect (on_project_changed);
 
 		picture = new Picture () {
 			halign = Align.CENTER,
@@ -16,8 +16,8 @@ public class App.View.Canvas : Adw.Bin {
 		child = picture;
 	}
 
-	void on_file_changed () {
-		picture.file = file;
+	void on_project_changed () {
+		picture.file = project == null ? null : project.source_file;
 	}
 
 }

@@ -10,11 +10,33 @@ public class App.View.Sidebar : View.Base {
 	protected ScrolledWindow scroller;
 	protected ListBox list;
 
+	Project? last_project = null;
+	public Project? project {
+		set {
+			if (last_project != null)
+				unbind_project ();
+			last_project = value;
+
+			if (value != null)
+				bind_project ();
+		}
+	}
+
+	void bind_project () {
+		list.bind_model (last_project.layers, (obj) => {
+			return new Widget.LayerRow (obj as Layer);
+		});
+	}
+
+	void unbind_project () {
+		list.bind_model (null, null);
+	}
+
 	construct {
-		width_request = 340;
+		width_request = 320;
 		show_controls = true;
-		add_css_class ("view");
-		header_title.title = _("Filters");
+		add_css_class ("app-view");
+		header_title.title = _("Layers");
 
 		view = new View.AddFilter ();
 
@@ -42,17 +64,6 @@ public class App.View.Sidebar : View.Base {
 		};
 		scroller.child = list;
 		append (scroller);
-	}
-
-	public Sidebar () {
-		add_item ();
-		add_item ();
-		add_item ();
-	}
-
-	public void add_item () {
-		var item = new Widget.LayerRow ();
-		list.append (item);
 	}
 	
 }

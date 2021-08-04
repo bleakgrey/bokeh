@@ -1,5 +1,9 @@
-.view .content row {
+.app-view .content row {
 	border-left: none;
 	border-right: none;
 	border-radius: 0px;
+}
+
+.app-view .header {
+	padding: 0px;
 }

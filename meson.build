@@ -31,6 +31,7 @@ libadwaita_dep = dependency('libadwaita-1', version: '>=1.0.0', required: true)
 
 sources = files(
     'src/Application.vala',
+    'src/Library.vala',
     'src/View/Base.vala',
     'src/View/Editor.vala',
     'src/View/Sidebar.vala',
@@ -38,6 +39,10 @@ sources = files(
     'src/View/AddFilter.vala',
     'src/Widget/LayerRow.vala',
     'src/Window/Main.vala',
+    'src/Project/Project.vala',
+    'src/Project/Shader.vala',
+    'src/Project/Layer.vala',
+    'src/Project/ShaderLayer.vala',
 )
 
 build_file = configure_file(

@@ -3,9 +3,9 @@ using Gtk;
 public class App.View.Editor : View.Base {
 
 	public Window.Main window { get; set; }
-	public File? file {
-		get { return canvas.file; }
-		set { canvas.file = value; }
+	public Project? project {
+		get { return canvas.project; }
+		set { canvas.project = value; }
 	}
 
 	protected Adw.ViewStack stack;
@@ -19,7 +19,7 @@ public class App.View.Editor : View.Base {
 
 	public class Editor (Window.Main window) {
 		this.window = window;
-		notify["file"].connect (on_file_changed);
+		notify["project"].connect (on_project_changed);
 	}
 	
 	construct {
@@ -66,10 +66,11 @@ public class App.View.Editor : View.Base {
 		window.open_file ();
 	}
 
-	void on_file_changed () {
-		var is_empty = (file == null);
+	void on_project_changed () {
+		var is_empty = (project == null);
+
 		stack.visible_child_name = is_empty ? "empty" : "canvas";
-		header_title.subtitle = is_empty ? "" : file.get_basename ();
+		header_title.subtitle = is_empty ? "" : project.source_file.get_basename ();
 		save_button.visible = !is_empty;
 	}
 	
