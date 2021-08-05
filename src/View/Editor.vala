@@ -12,13 +12,16 @@ public class App.View.Editor : View.Base {
 
 	protected Adw.StatusPage empty_state;
 
-	public View.Canvas canvas;
+	protected View.Canvas canvas;
 	protected Button open_button;
 	protected Button save_button;
 	protected MenuButton menu_button;
 
 	public class Editor (Window.Main window) {
 		this.window = window;
+		this.window.render.connect (() => {
+			canvas.queue_draw ();
+		});
 		notify["project"].connect (on_project_changed);
 	}
 	

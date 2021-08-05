@@ -12,10 +12,13 @@ public class App.Window.Main : Adw.Window {
 	}
 	
 	protected Adw.Flap flap_widget;
-	public App.View.Editor editor;
-	public App.View.Sidebar sidebar;
+	protected App.View.Editor editor;
+	protected App.View.Sidebar sidebar;
 
 	protected CssProvider css_provider = new CssProvider ();
+
+	// Events
+	public signal void render ();
 
 	construct {
 		css_provider.load_from_resource (@"$(Build.RESOURCES)app.css");

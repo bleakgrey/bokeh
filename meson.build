@@ -31,7 +31,8 @@ libadwaita_dep = dependency('libadwaita-1', version: '>=1.0.0', required: true)
 
 sources = files(
     'src/Application.vala',
-    'src/Library.vala',
+    'src/Library/Library.vala',
+    'src/Library/Asset.vala',
     'src/View/Base.vala',
     'src/View/Editor.vala',
     'src/View/Sidebar.vala',
@@ -59,6 +60,7 @@ executable(
     dependencies: [
         dependency('glib-2.0', version: '>=2.30.0'),
         dependency('gee-0.8', version: '>=0.8.5'),
+        dependency('json-glib-1.0', version: '>=1.4.4'),
         libgtk_dep,
         libadwaita_dep,
     ],

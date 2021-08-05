@@ -1,8 +1,6 @@
 using Gsk;
 
-public class App.Shader : Object {
-
-	public string name { get; set; }
+public class App.Shader : Asset {
 	public Bytes content { get; set; }
 
 	public GLShader get_node () {

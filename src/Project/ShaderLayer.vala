@@ -5,7 +5,7 @@ public class App.ShaderLayer : Layer {
 	public string? shader_name { get; set; }
 
 	protected Shader get_shader_preset () {
-		return library.shaders.get (shader_name);
+		return library.asset_cache.get (shader_name) as Shader;
 	}
 
 	public Bytes get_node_arguments (GLShader shader) {

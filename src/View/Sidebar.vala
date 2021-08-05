@@ -36,9 +36,11 @@ public class App.View.Sidebar : View.Base {
 		width_request = 320;
 		show_controls = true;
 		add_css_class ("app-view");
+		add_css_class ("view");
 		header_title.title = _("Layers");
 
 		view = new View.AddFilter ();
+		view.selected.connect (add_asset_instance);
 
 		var frame = new Frame (null) {
 			child = view
@@ -66,4 +68,9 @@ public class App.View.Sidebar : View.Base {
 		append (scroller);
 	}
 	
+	void add_asset_instance (Asset asset) {
+		popover.popdown ();
+		warning (asset.name);
+	}
+
 }

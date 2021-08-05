@@ -14,19 +14,19 @@ public class App.Layer : Object {
 	public virtual signal void on_added (Window.Main? win) {
 		message ("Bind layer to window");
 		this.window = win;
-		notify["visible"].connect (redraw);
+		notify["visible"].connect (render);
 	}
 	public virtual signal void on_removed () {
 		message ("Unbind layer from window");
 		this.visible = false;
 		this.window = null;
-		notify["visible"].disconnect (redraw);
+		notify["visible"].disconnect (render);
 	}
 
 	public virtual void snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
 
-	public void redraw () {
-		window.editor.canvas.queue_draw ();
+	public void render () {
+		this.window.render ();
 	}
 
 	public void remove () {
