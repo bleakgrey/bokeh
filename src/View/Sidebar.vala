@@ -10,12 +10,12 @@ public class App.View.Sidebar : View.Base {
 	protected ScrolledWindow scroller;
 	protected ListBox list;
 
-	Project? last_project = null;
+	Project? current_project = null;
 	public Project? project {
 		set {
-			if (last_project != null)
+			if (current_project != null)
 				unbind_project ();
-			last_project = value;
+			current_project = value;
 
 			if (value != null)
 				bind_project ();
@@ -23,7 +23,7 @@ public class App.View.Sidebar : View.Base {
 	}
 
 	void bind_project () {
-		list.bind_model (last_project.layers, (obj) => {
+		list.bind_model (current_project.layers, (obj) => {
 			return new Widget.LayerRow (obj as Layer);
 		});
 	}
@@ -70,7 +70,17 @@ public class App.View.Sidebar : View.Base {
 	
 	void add_asset_instance (Asset asset) {
 		popover.popdown ();
-		warning (asset.name);
+
+		var type = asset.get_class ().get_name ();
+		switch (type) {
+			case "AppShader":
+				var shader = asset as Shader;
+				current_project.add_layer (new ShaderLayer () {
+					name = shader.name,
+					shader_name = shader.id
+				});
+				break;
+		}
 	}
 
 }

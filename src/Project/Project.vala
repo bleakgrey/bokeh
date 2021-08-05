@@ -20,10 +20,10 @@ public class App.Project : Object {
 			togglable = false
 		});
 
-		add_layer (new ShaderLayer (){
-			name = _("Sepia"),
-			shader_name = "sepia"
-		});
+		// add_layer (new ShaderLayer (){
+		// 	name = _("Sepia"),
+		// 	shader_name = "sepia"
+		// });
 	}
 
 	public void add_layer (Layer layer) {

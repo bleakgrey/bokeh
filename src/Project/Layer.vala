@@ -15,10 +15,12 @@ public class App.Layer : Object {
 		message ("Bind layer to window");
 		this.window = win;
 		notify["visible"].connect (render);
+		render ();
 	}
 	public virtual signal void on_removed () {
 		message ("Unbind layer from window");
 		this.visible = false;
+		render ();
 		this.window = null;
 		notify["visible"].disconnect (render);
 	}
