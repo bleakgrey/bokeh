@@ -21,18 +21,37 @@ public class App.View.Canvas : Adw.Bin {
 	}
 
 	public override void snapshot (Snapshot snapshot) {
-		//warning ("snap");
-		base.snapshot (snapshot);
-		if (project != null) {
-			var bounds = Graphene.Rect ();
-			bounds.init (0, 0, this.get_width (), this.get_height ());
-
-			var layers = project.layers;
-			for (uint i = 0; i < layers.get_n_items (); i++ ) {
-				var layer = layers.get_object (i) as Layer;
-				layer.snapshot (snapshot, bounds, this);
-			}
+		if (project == null || project.layers.get_n_items () < 1) {
+			base.snapshot (snapshot);
+			return;
 		}
+
+		Graphene.Rect bounds;
+		this.child.compute_bounds (this, out bounds);
+
+		//var bounds = Graphene.Bounds ();
+		//bounds.init (0, 0, this.child.get_width (), this.child.get_height ());
+
+		warning ("=== BEGIN RENDER ====");
+
+		var layers = project.layers;
+		Layer? layer = null;
+		for (uint i = 0; i < layers.get_n_items (); i++ ) {
+			layer = layers.get_object (i) as Layer;
+			warning ("start snap layer: "+layer.name);
+			layer.start_snapshot (snapshot, bounds, this);
+		}
+
+		if (layer != null) {
+			warning ("EMBED CHILD");
+			layer.reached_root_snapshot (snapshot, bounds, this);
+		}
+
+		for (uint i = 0; i < layers.get_n_items (); i++ ) {
+			warning ("end:"+layer.name);
+			layer.end_snapshot (snapshot, bounds, this);
+		}
+
 	}
 
 }

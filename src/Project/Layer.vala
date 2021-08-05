@@ -25,7 +25,9 @@ public class App.Layer : Object {
 		notify["visible"].disconnect (render);
 	}
 
-	public virtual void snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
+	public virtual void start_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
+	public virtual void reached_root_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
+	public virtual void end_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {}
 
 	public void render () {
 		this.window.render ();
