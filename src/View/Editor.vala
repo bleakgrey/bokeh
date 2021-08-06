@@ -74,7 +74,7 @@ public class App.View.Editor : View.Base {
 		var is_empty = (project == null);
 
 		stack.visible_child_name = is_empty ? "empty" : "canvas";
-		header_title.subtitle = is_empty ? "" : project.source_file.get_basename ();
+		header_title.title = is_empty ? Build.NAME : project.source_file.get_basename ();
 		save_button.visible = !is_empty;
 	}
 	

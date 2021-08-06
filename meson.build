@@ -43,6 +43,7 @@ sources = files(
     'src/Window/Main.vala',
     'src/Project/Project.vala',
     'src/Project/Layer.vala',
+    'src/Project/SourceLayer.vala',
     'src/Project/ShaderLayer.vala',
 )
 

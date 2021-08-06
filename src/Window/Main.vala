@@ -21,7 +21,7 @@ public class App.Window.Main : Adw.Window {
 	public signal void render ();
 
 	construct {
-		css_provider.load_from_resource (@"$(Build.RESOURCES)app.css");
+		css_provider.load_from_resource (Build.RESOURCES+"app.css");
 		StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 		editor = new View.Editor (this);

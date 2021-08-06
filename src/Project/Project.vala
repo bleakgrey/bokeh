@@ -14,11 +14,11 @@ public class App.Project : Object {
 		this.window = win;
 		window.project = this;
 
-		// add_layer (new Layer (){
-		// 	name = _("Source"),
-		// 	removable = false,
-		// 	togglable = false
-		// });
+		add_layer (new SourceLayer (){
+			name = _("Source File"),
+			removable = false,
+			togglable = false
+		});
 
 		// add_layer (new ShaderLayer (){
 		// 	name = _("Sepia"),
