@@ -56,4 +56,8 @@ public class App.ShaderLayer : Layer {
 		snapshot.pop ();
 	}
 
+	public override void build_options (Widget.LayerRow row) {
+
+	}
+
 }

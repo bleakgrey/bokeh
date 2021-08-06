@@ -14,6 +14,8 @@ namespace App {
 		public static int main (string[] args) {
 			Intl.setlocale ();
 			Gtk.init ();
+			var gtk_settings = Gtk.Settings.get_default ();
+			gtk_settings.gtk_theme_name = "Adwaita-dark";
 
 			library = new Library ("/home/user/Documents/Apps/bokeh/data/library");
 

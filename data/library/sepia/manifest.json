@@ -1,12 +1,15 @@
 {
-	"name": "Sepia",
+	"title": "Sepia",
 	"args": [
 		{
-			"name": "intensity",
+			"title": "Intensity",
+			"uniform": "intensity",
 			"type": "float",
-			"controller": "slider",
 			"min": 0,
-			"max": 1
+			"max": 1,
+			"controller": {
+				"type": "slider"
+			}
 		}
 	]
 }

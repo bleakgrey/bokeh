@@ -37,4 +37,6 @@ public class App.Layer : Object {
 		this.window.project.remove_layer (this);
 	}
 
+	public virtual void build_options (Widget.LayerRow row) {}
+
 }

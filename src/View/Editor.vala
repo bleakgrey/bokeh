@@ -33,7 +33,8 @@ public class App.View.Editor : View.Base {
 
 		empty_state = new Adw.StatusPage () {
 			title = _("Nothing here yet"),
-			description = _("Open a photo to start editing")
+			description = _("Open a photo to start editing"),
+			icon_name = Build.DOMAIN+"-symbolic"
 		};
 		stack.add_named (empty_state, "empty");
 

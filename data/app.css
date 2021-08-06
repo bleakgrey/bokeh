@@ -1,3 +1,19 @@
+@define-color accent_bg_color #f6d32d;
+@define-color accent_fg_color @theme_bg_color;
+
+popover picture {
+	border-radius:6px;
+}
+
+gridview child {
+	margin:0px;
+	padding:12px;
+}
+gridview child box {
+	margin:0px;
+	padding:0px;
+}
+
 .app-view .content row {
 	border-left: none;
 	border-right: none;
