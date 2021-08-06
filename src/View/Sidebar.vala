@@ -22,16 +22,6 @@ public class App.View.Sidebar : View.Base {
 		}
 	}
 
-	void bind_project () {
-		list.bind_model (current_project.layers, (obj) => {
-			return new Widget.LayerRow (obj as Layer);
-		});
-	}
-
-	void unbind_project () {
-		list.bind_model (null, null);
-	}
-
 	construct {
 		width_request = 320;
 		show_controls = true;
@@ -67,7 +57,20 @@ public class App.View.Sidebar : View.Base {
 		scroller.child = list;
 		append (scroller);
 	}
-	
+
+	void bind_project () {
+		var expression = new PropertyExpression (typeof (App.Layer), null, "id");
+		var sorter = new NumericSorter (expression);
+		var model = new SortListModel (current_project.layers, sorter);
+		list.bind_model (model, (obj) => {
+			return new Widget.LayerRow (obj as Layer);
+		});
+	}
+
+	void unbind_project () {
+		list.bind_model (null, null);
+	}
+
 	void add_asset_instance (Asset asset) {
 		popover.popdown ();
 

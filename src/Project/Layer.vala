@@ -1,15 +1,25 @@
 public abstract class App.Layer : Object {
 
+	public static uint LAYER_ID_COUNTER = 0;
+
 	// Volatile state
 	protected Window.Main? window { get; set; }
 
 	// Serializable state
+	public uint id { get; set; default = 0; }
 	public string name { get; set; default = _("New Layer"); }
 	public bool visible { get; set; default = true; }
 
 	// Class defaults
 	public bool removable { get; set; default = true; }
 	public bool togglable { get; set; default = true; }
+
+	construct {
+		if (this.id == 0) {
+			LAYER_ID_COUNTER++;
+			this.id = LAYER_ID_COUNTER;
+		}
+	}
 
 	public virtual signal void on_added (Window.Main? win) {
 		message ("Bind layer to window");
