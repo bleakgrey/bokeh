@@ -29,6 +29,7 @@ public class App.Widget.LayerRow : Adw.ExpanderRow {
 		layer.bind_property ("name", this, "title", GLib.BindingFlags.SYNC_CREATE);
 		layer.bind_property ("togglable", visiblilty_switch, "visible", GLib.BindingFlags.SYNC_CREATE);
 		layer.bind_property ("removable", remove_button, "visible", GLib.BindingFlags.SYNC_CREATE);
+		layer.bind_property ("icon-name", this, "icon-name", GLib.BindingFlags.SYNC_CREATE);
 		visiblilty_switch.bind_property ("state", layer, "visible", GLib.BindingFlags.SYNC_CREATE);
 
 		layer.build_options (this);

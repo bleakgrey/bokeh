@@ -9,6 +9,7 @@ public abstract class App.Layer : Object {
 	public uint id { get; set; default = 0; }
 	public string name { get; set; default = _("New Layer"); }
 	public bool visible { get; set; default = true; }
+	public string icon_name { get; set; default = "layer-arrow-symbolic"; }
 
 	// Class defaults
 	public bool removable { get; set; default = true; }
