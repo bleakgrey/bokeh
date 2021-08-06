@@ -3,6 +3,7 @@ using Gtk;
 namespace App {
 
 	public static Library library;
+	public static Window.Main? main_window;
 
 	public class Instance : Gtk.Application {
 
@@ -25,7 +26,8 @@ namespace App {
 
 		protected override void startup () {
 			base.startup ();
-			add_window (new Window.Main ());
+			main_window = new Window.Main ();
+			add_window (main_window);
 		}
 
 		protected override void activate () {
@@ -34,6 +36,7 @@ namespace App {
 
 		public override void open (File[] files, string hint) {
 			base.open (files, hint);
+			main_window.load_project (files[0]);
 		}
 
 	}

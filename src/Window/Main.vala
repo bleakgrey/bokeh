@@ -52,8 +52,6 @@ public class App.Window.Main : Adw.Window {
 		
 		present ();
 		on_project_changed ();
-
-		//load_project (File.new_for_path ("/home/user/Downloads/tumblr_nm6h3gxZvK1rbc4bko1_640.png"));
 	}
 
 	void update_controls () {

@@ -31,34 +31,16 @@ public class App.Library : Object {
 		}
 
 		foreach (var file in shader_dirs) {
-			load_shader (file);
-		}
-	}
-
-	protected void load_shader (File dir) {
-		var shader_file = File.new_build_filename (dir.get_path (), "fragment.glsl");
-		var manifest_file = File.new_build_filename (dir.get_path (), "manifest.json");
-		var id = dir.get_basename ();
-		message (@"Found shader: \"$id\"");
-
-		try {
-			if (!shader_file.query_exists ())
-				throw new FileError.NOENT ("Fragment shader not found");
-
-			string etag_out;
-			var bytes = shader_file.load_bytes (null, out etag_out);
-
-			var shader = new Shader () {
-				id = id,
-				name = id,
-				content = (owned) bytes
-			};
-
-			assets.append (shader);
-			asset_cache.set (id, shader);
-		}
-		catch (Error e) {
-			warning (e.message);
+			var id = file.get_basename ();
+			message (@"Loading asset \"$id\"");
+			try {
+				var asset = Shader.parse_shader (file);
+				assets.append (asset);
+				asset_cache.set (id, asset);
+			}
+			catch (Error e) {
+				warning (@"Failed to load asset \"$id\": $(e.message)");
+			}
 		}
 	}
 

@@ -1,9 +1,9 @@
 {
-	"title": "Sepia",
-	"args": [
+	"name": "Sepia",
+	"uniforms": [
 		{
 			"title": "Intensity",
-			"uniform": "intensity",
+			"symbol": "intensity",
 			"type": "float",
 			"min": 0,
 			"max": 1,
