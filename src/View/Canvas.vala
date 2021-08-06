@@ -8,10 +8,18 @@ public class App.View.Canvas : Adw.Bin {
 
 	construct {
 		notify["project"].connect (on_project_changed);
+		hexpand = false;
+		vexpand = false;
+		halign = Align.START;
+		valign = Align.START;
+		add_css_class ("canvas");
 
 		picture = new Picture () {
-			halign = Align.CENTER,
-			valign = Align.CENTER
+			hexpand = false,
+			vexpand = false,
+			halign = Align.START,
+			valign = Align.START,
+			can_shrink = false
 		};
 		child = picture;
 	}

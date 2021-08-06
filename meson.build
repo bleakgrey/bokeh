@@ -38,6 +38,7 @@ sources = files(
     'src/View/Editor.vala',
     'src/View/Sidebar.vala',
     'src/View/Canvas.vala',
+    'src/View/Navigator.vala',
     'src/View/AddFilter.vala',
     'src/Widget/LayerRow.vala',
     'src/Window/Main.vala',

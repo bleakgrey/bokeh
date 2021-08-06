@@ -46,6 +46,7 @@ public class App.View.Sidebar : View.Base {
 			//label = _("New")
 			icon_name = "list-add-symbolic"
 		};
+		add_button.add_css_class ("flat");
 		header.pack_start (add_button);
 
 		list = new ListBox ();

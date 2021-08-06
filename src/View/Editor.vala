@@ -9,10 +9,10 @@ public class App.View.Editor : View.Base {
 	}
 
 	protected Adw.ViewStack stack;
-
 	protected Adw.StatusPage empty_state;
-
+	protected View.Navigator navigator;
 	protected View.Canvas canvas;
+
 	protected Button open_button;
 	protected Button save_button;
 	protected MenuButton menu_button;
@@ -38,11 +38,12 @@ public class App.View.Editor : View.Base {
 		};
 		stack.add_named (empty_state, "empty");
 
-		canvas = new View.Canvas () {
+		canvas = new View.Canvas ();
+		navigator = new View.Navigator (canvas) {
 			hexpand = true,
 			vexpand = true
 		};
-		stack.add_named (canvas, "canvas");
+		stack.add_named (navigator, "canvas");
 	}
 
 	void build_header () {
@@ -51,6 +52,7 @@ public class App.View.Editor : View.Base {
 		menu_button = new MenuButton () {
 			icon_name = "open-menu-symbolic"
 		};
+		menu_button.add_css_class ("flat");
 		header.pack_end (menu_button);
 
 		save_button = new Button () {
@@ -76,6 +78,11 @@ public class App.View.Editor : View.Base {
 		stack.visible_child_name = is_empty ? "empty" : "canvas";
 		header_title.title = is_empty ? Build.NAME : project.source_file.get_basename ();
 		save_button.visible = !is_empty;
+
+		if (is_empty)
+			this.remove_css_class ("editor-bg");
+		else
+			this.add_css_class ("editor-bg");
 	}
 	
 }

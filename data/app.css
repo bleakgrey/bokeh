@@ -1,6 +1,32 @@
+@define-color accent_color #f6d32d;
 @define-color accent_bg_color #f6d32d;
 @define-color accent_fg_color @theme_bg_color;
 
+.editor-bg {
+	background: black;
+}
+
+/* Layers sidebar */
+
+.app-view .content row {
+	border-left: none;
+	border-right: none;
+	border-radius: 0px;
+}
+
+.app-view .header {
+	padding: 0px;
+}
+
+.app-view row image {
+	opacity:.5;
+}
+.app-view row button image {
+	opacity:1;
+}
+
+
+/* Add filter popover */
 popover picture {
 	border-radius:6px;
 }
@@ -12,14 +38,4 @@ gridview child {
 gridview child box {
 	margin:0px;
 	padding:0px;
-}
-
-.app-view .content row {
-	border-left: none;
-	border-right: none;
-	border-radius: 0px;
-}
-
-.app-view .header {
-	padding: 0px;
 }
