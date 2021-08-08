@@ -16,6 +16,7 @@ public class App.View.Editor : View.Base {
 	protected Button open_button;
 	protected Button save_button;
 	protected MenuButton menu_button;
+	protected Scale zoom_slider;
 
 	public class Editor (Window.Main window) {
 		this.window = window;
@@ -39,6 +40,7 @@ public class App.View.Editor : View.Base {
 		stack.add_named (empty_state, "empty");
 
 		canvas = new View.Canvas ();
+		zoom_slider.get_adjustment ().bind_property ("value", canvas, "scale", GLib.BindingFlags.SYNC_CREATE);
 		navigator = new View.Navigator (canvas) {
 			hexpand = true,
 			vexpand = true
@@ -47,8 +49,6 @@ public class App.View.Editor : View.Base {
 	}
 
 	void build_header () {
-		header_title.title = Build.NAME;
-
 		menu_button = new MenuButton () {
 			icon_name = "open-menu-symbolic"
 		};
@@ -66,6 +66,11 @@ public class App.View.Editor : View.Base {
 		};
 		open_button.clicked.connect (on_open_clicked);
 		header.pack_start (open_button);
+
+		zoom_slider = new Scale.with_range (Orientation.HORIZONTAL, 0.2f, 5.0f, 0.2) {
+			width_request = 200
+		};
+		header.pack_start (zoom_slider);
 	}
 
 	void on_open_clicked () {
@@ -76,7 +81,7 @@ public class App.View.Editor : View.Base {
 		var is_empty = (project == null);
 
 		stack.visible_child_name = is_empty ? "empty" : "canvas";
-		header_title.title = is_empty ? Build.NAME : project.source_file.get_basename ();
+		header_title.title = is_empty ? Build.NAME : project.file.get_basename ();
 		save_button.visible = !is_empty;
 
 		if (is_empty)

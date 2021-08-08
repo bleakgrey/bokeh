@@ -65,6 +65,7 @@ executable(
         dependency('json-glib-1.0', version: '>=1.4.4'),
         libgtk_dep,
         libadwaita_dep,
+        #meson.get_compiler('c').find_library('m'),
     ],
     install: true,
 )

@@ -2,15 +2,20 @@ public class App.Project : Object {
 
 	protected Window.Main? window { get; set; }
 
-	public File source_file { get; set; }
+	public Gdk.Texture source { get; set; }
+	public File file { get; set; }
+
 	public GLib.ListStore layers { get; set; default = new GLib.ListStore (typeof(Layer)); }
 
-	public Project (File source_file) {
-		this.source_file = source_file;
+	public Project (File file) {
+		this.file = file;
 	}
 
 	public void load (Window.Main win) {
-		message ("Loading project: "+source_file.get_path ());
+		message ("Loading project: "+file.get_path ());
+
+		this.source = Gdk.Texture.from_file (file);
+
 		this.window = win;
 		window.project = this;
 
@@ -20,9 +25,18 @@ public class App.Project : Object {
 			togglable = false
 		});
 
+		// DEBUG STUFF, REMOVE LATER
 		// add_layer (new ShaderLayer (){
-		// 	name = _("Sepia"),
-		// 	shader_name = "sepia"
+		// 	shader_name = "vignette"
+		// });
+		// add_layer (new ShaderLayer (){
+		// 	shader_name = "vignette"
+		// });
+		// add_layer (new ShaderLayer (){
+		// 	shader_name = "vignette"
+		// });
+		// add_layer (new ShaderLayer (){
+		// 	shader_name = "invert"
 		// });
 	}
 

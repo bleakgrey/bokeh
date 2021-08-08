@@ -25,11 +25,6 @@ public class App.ShaderLayer : Layer {
 		var node = preset.get_node ();
 		var node_args = get_node_arguments (node);
 		snapshot.push_gl_shader (node, bounds, node_args);
-
-	}
-
-	public override void reached_root_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {
-		canvas.snapshot_child (canvas.child, snapshot);
 	}
 
 	public override void end_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {

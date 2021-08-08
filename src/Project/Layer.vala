@@ -37,7 +37,6 @@ public abstract class App.Layer : Object {
 	}
 
 	public abstract void start_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas);
-	public abstract void reached_root_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas);
 	public abstract void end_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas);
 
 	public void render () {
