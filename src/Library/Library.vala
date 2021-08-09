@@ -34,7 +34,7 @@ public class App.Library : Object {
 			var id = file.get_basename ();
 			message (@"Loading asset \"$id\"");
 			try {
-				var asset = Shader.parse_shader (file);
+				var asset = Filter.parse (file);
 				assets.append (asset);
 				asset_cache.set (id, asset);
 			}

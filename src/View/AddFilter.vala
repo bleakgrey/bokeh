@@ -15,7 +15,7 @@ public class App.View.AddFilter : Box {
 		orientation = Orientation.VERTICAL;
 		hexpand = true;
 		vexpand = true;
-		height_request = 300;
+		height_request = 400;
 		width_request = 500;
 
 		search = new SearchEntry () {
@@ -55,8 +55,7 @@ public class App.View.AddFilter : Box {
 		});
 		factory.bind.connect (widget => {
 			var item = widget.child as Item;
-			var asset = widget.item as Shader;
-			item.label.label = asset.name;
+			item.bind (widget.item as Filter);
 		});
 
 		return new GridView (model, factory) {
@@ -69,24 +68,14 @@ public class App.View.AddFilter : Box {
 
 	protected class Item : Box {
 
-		public Picture thumbnail;
+		public Thumbnail thumbnail;
 		public Label label;
 
 		construct {
 			orientation = Orientation.VERTICAL;
-			height_request = 120;
-			width_request = 100;
+			set_size_request (120, 120);
 
-			thumbnail = new Picture () {
-				valign = Align.FILL,
-				halign = Align.FILL,
-				hexpand = true,
-				vexpand = true,
-				can_shrink = true,
-				keep_aspect_ratio = false,
-				file = File.new_for_path ("/home/user/Downloads/indавex.jpeg"),
-				overflow = Overflow.HIDDEN
-			};
+			thumbnail = new Thumbnail ();
 			append (thumbnail);
 
 			label = new Label ("Label") {
@@ -95,6 +84,57 @@ public class App.View.AddFilter : Box {
 			};
 			label.add_css_class ("body");
 			append (label);
+		}
+
+		public void bind (Filter asset) {
+			label.label = asset.name;
+			thumbnail.file = File.new_for_uri ("resource:///com/github/bleakgrey/bokeh/thumb.jpg");
+			thumbnail.filter = asset;
+			thumbnail.args = asset.get_thumbnail_args ();
+		}
+
+	}
+
+	protected class Thumbnail : Adw.Bin {
+
+		public Filter? filter { get; set; }
+		public HashTable<string, string> args;
+
+		Picture? pic {
+			get { return child as Picture; }
+		}
+
+		public File file {
+			get { return pic.file; }
+			set { pic.file = value; }
+		}
+
+		construct {
+			child = new Picture () {
+				can_shrink = true,
+				keep_aspect_ratio = false,
+				vexpand = true,
+				hexpand = true
+			};
+			hexpand = true;
+			vexpand = true;
+			overflow = Overflow.HIDDEN;
+			add_css_class ("shader-thumb");
+		}
+
+		public override void snapshot (Snapshot snapshot) {
+			if (filter == null) {
+				return;
+			}
+
+			var instance = filter.instance;
+			Graphene.Rect bounds;
+			compute_bounds (child, out bounds);
+
+			snapshot.push_gl_shader (instance, bounds, filter.build_args (args));
+			snapshot_child (child, snapshot);
+			snapshot.gl_shader_pop_texture ();
+			snapshot.pop ();
 		}
 
 	}

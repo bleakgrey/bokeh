@@ -33,7 +33,7 @@ sources = files(
     'src/Application.vala',
     'src/Library/Library.vala',
     'src/Library/Asset.vala',
-    'src/Library/Shader.vala',
+    'src/Library/Filter.vala',
     'src/View/Base.vala',
     'src/View/Editor.vala',
     'src/View/Sidebar.vala',
@@ -45,7 +45,7 @@ sources = files(
     'src/Project/Project.vala',
     'src/Project/Layer.vala',
     'src/Project/SourceLayer.vala',
-    'src/Project/ShaderLayer.vala',
+    'src/Project/FilterLayer.vala',
 )
 
 build_file = configure_file(

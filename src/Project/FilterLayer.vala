@@ -1,15 +1,15 @@
 using Gsk;
 using Gtk;
 
-public class App.ShaderLayer : Layer {
+public class App.FilterLayer : Layer {
 
-	public string? shader_name { get; set; }
+	public string? asset_id { get; set; }
 	public HashTable<string,string> uniforms = new HashTable<string,string> (str_hash, str_equal);
 
 	int _needs_textures = 0;
 
-	public Shader get_asset () {
-		return library.asset_cache.get (shader_name) as Shader;
+	public Filter get_asset () {
+		return library.asset_cache.get (asset_id) as Filter;
 	}
 
 	public override void start_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {
@@ -17,26 +17,11 @@ public class App.ShaderLayer : Layer {
 
 		var asset = get_asset ();
 		var glshader = asset.instance;
+		var args = asset.build_args (this.uniforms);
 		_needs_textures = glshader.get_n_textures ();
 		//warning ("Textures for this layer: "+_needs_textures.to_string ());
 
-		var arg_builder = new ShaderArgsBuilder (glshader, null);
-		uniforms.for_each ((name) => {
-			var schema = asset.uniforms[name];
-			var idx = glshader.find_uniform_by_name (name);
-			var val = uniforms[name];
-
-			switch (schema.holds) {
-				case "float":
-					var fval = double.parse (val);
-					arg_builder.set_float (idx, (float) fval);
-					break;
-			}
-		});
-
-		var glshader_args = arg_builder.to_args ();
-
-		snapshot.push_gl_shader (glshader, bounds, glshader_args);
+		snapshot.push_gl_shader (glshader, bounds, args);
 	}
 
 	public override void end_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {
@@ -53,7 +38,7 @@ public class App.ShaderLayer : Layer {
 		});
 	}
 
-	Gtk.Widget? get_uniform_controller (Shader.Uniform uniform) {
+	Gtk.Widget? get_uniform_controller (Filter.Uniform uniform) {
 		var row = new Adw.ActionRow () {
 			title = uniform.title
 		};

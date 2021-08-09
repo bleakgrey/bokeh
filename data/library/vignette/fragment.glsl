@@ -3,8 +3,8 @@
 
 uniform sampler2D u_texture1;
 
-uniform float amount;
-uniform float falloff;
+uniform float amount = 1.0;
+uniform float falloff = 0.45;
 
 void mainImage(out vec4 fragColor, vec2 fragCoord, vec2 resolution, vec2 uv) {
     vec4 color = GskTexture(u_texture1, uv);

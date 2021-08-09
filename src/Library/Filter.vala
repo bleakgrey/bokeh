@@ -1,4 +1,4 @@
-public class App.Shader : Asset, Json.Serializable {
+public class App.Filter : Asset, Json.Serializable {
 
 	public Bytes fragment_shader { get; set; }
 	public HashTable<string, Uniform> uniforms { get; set; }
@@ -12,7 +12,7 @@ public class App.Shader : Asset, Json.Serializable {
 		}
 	}
 
-	public static Shader parse_shader (File dir) throws Error {
+	public static Filter parse (File dir) throws Error {
 		var id = dir.get_basename ();
 
 		var shader_file = File.new_build_filename (dir.get_path (), "fragment.glsl");
@@ -26,11 +26,10 @@ public class App.Shader : Asset, Json.Serializable {
 		var manifest = manifest_file.load_bytes ();
 		var manifest_data = (string) manifest.get_data ();
 
-		var shader = Json.gobject_from_data (typeof (Shader), manifest_data) as Shader;
-		shader.id = id;
-		shader.fragment_shader = shader_file.load_bytes ();
-
-		return shader;
+		var filter = Json.gobject_from_data (typeof (Filter), manifest_data) as Filter;
+		filter.id = id;
+		filter.fragment_shader = shader_file.load_bytes ();
+		return filter;
 	}
 
 	public virtual bool deserialize_property (string property, out Value val, ParamSpec spec, Json.Node node) {
@@ -50,6 +49,33 @@ public class App.Shader : Asset, Json.Serializable {
 			default:
 				return default_deserialize_property (property, out val, spec, node);
 		}
+	}
+
+	public Bytes build_args (HashTable<string,string> uniforms) {
+		var builder = new Gsk.ShaderArgsBuilder (instance, null);
+		uniforms.for_each ((name) => {
+			var schema = this.uniforms[name];
+			if (schema != null) {
+				var idx = instance.find_uniform_by_name (name);
+				var val = uniforms[name];
+
+				switch (schema.holds) {
+					case "float":
+						var fval = double.parse (val);
+						builder.set_float (idx, (float) fval);
+						break;
+				}
+			}
+		});
+
+		return builder.to_args ();
+	}
+
+	public HashTable<string, string> get_thumbnail_args () {
+		var args = new HashTable<string, string> (str_hash, str_equal);
+		args["amount"] = "1.0";
+		args["intensity"] = "1.0";
+		return args;
 	}
 
 

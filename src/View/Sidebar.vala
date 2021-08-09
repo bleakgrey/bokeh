@@ -79,11 +79,11 @@ public class App.View.Sidebar : View.Base {
 
 		var type = asset.get_class ().get_name ();
 		switch (type) {
-			case "AppShader":
-				var shader = asset as Shader;
-				current_project.add_layer (new ShaderLayer () {
-					name = shader.name,
-					shader_name = shader.id
+			case "AppFilter":
+				var filter = asset as Filter;
+				current_project.add_layer (new FilterLayer () {
+					name = filter.name,
+					asset_id = filter.id
 				});
 				break;
 		}
