@@ -5,14 +5,15 @@
     "runtime-version" : "40",
     "command" : "com.github.bleakgrey.bokeh",
     "finish-args" : [
-        "--share=network",
+        "--device=dri",
         "--share=ipc",
+        "--share=network",
         "--socket=fallback-x11",
         "--socket=wayland",
-        "--filesystem=xdg-run/dconf",
-        "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf",
-        "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
+        "--talk-name=org.gtk.vfs",
+        "--talk-name=org.gtk.vfs.*",
+        "--filesystem=xdg-run/gvfsd",
+        "--filesystem=home"
     ],
     "cleanup" : [
         "/include",
@@ -27,29 +28,21 @@
     ],
     "modules" : [
         {
-            "name" : "libadwaita",
+            "name" : "libsass",
             "buildsystem" : "meson",
-            "config-opts" : [
-                "-Dintrospection=enabled",
-                "-Dtests=false",
-                "-Dexamples=false",
-                "-Dvapi=false"
-            ],
-            "cleanup" : [
-                "/include",
-                "/lib/pkgconfig"
-            ],
+            "builddir" : true,
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "https://gitlab.gnome.org/GNOME/libadwaita.git",
-                    "branch" : "main"
+                    "url" : "https://github.com/lazka/libsass.git",
+                    "branch" : "meson"
                 }
             ]
         },
         {
             "name" : "sassc",
             "buildsystem" : "meson",
+            "builddir" : true,
             "sources" : [
                 {
                     "type" : "git",
@@ -59,13 +52,13 @@
             ]
         },
         {
-            "name" : "libsass",
+            "name" : "libadwaita",
             "buildsystem" : "meson",
             "sources" : [
                 {
                     "type" : "git",
-                    "url" : "https://github.com/lazka/libsass.git",
-                    "branch" : "meson"
+                    "url" : "https://gitlab.gnome.org/GNOME/libadwaita.git",
+                    "branch" : "main"
                 }
             ]
         },
