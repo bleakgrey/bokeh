@@ -7,7 +7,7 @@ const vec4 one = vec4(1.0);
 const vec4 two = vec4(2.0);
 const vec4 lumcoeff = vec4(0.2125,0.7154,0.0721,0.0);
 
-const float amount = 1.0;
+uniform float amount;
 
 vec4 overlay(vec4 myInput, vec4 previousmix, vec4 amount) {
 	float luminance = dot(previousmix,lumcoeff);

@@ -1,11 +1,10 @@
-using Gsk;
-
-public class App.Shader : Asset {
+public class App.Shader : Asset, Json.Serializable {
 
 	public Bytes fragment_shader { get; set; }
+	public HashTable<string, Uniform> uniforms { get; set; }
 
-	public GLShader get_node () {
-		return new GLShader.from_bytes (fragment_shader);
+	public Gsk.GLShader get_instance () {
+		return new Gsk.GLShader.from_bytes (fragment_shader);
 	}
 
 	public static Shader parse_shader (File dir) throws Error {
@@ -27,6 +26,47 @@ public class App.Shader : Asset {
 		shader.fragment_shader = shader_file.load_bytes ();
 
 		return shader;
+	}
+
+	public virtual bool deserialize_property (string property, out Value val, ParamSpec spec, Json.Node node) {
+		switch (property) {
+			case "uniforms":
+				var table = new HashTable<string, Object> (str_hash, str_equal);
+
+				if (node.get_node_type () == Json.NodeType.OBJECT) {
+					node.get_object ().foreach_member ((obj, name, node) => {
+						var u = parse_uniform (name, node);
+						table[u.name] = u;
+					});
+				}
+
+				val = table;
+				return true;
+			default:
+				return default_deserialize_property (property, out val, spec, node);
+		}
+	}
+
+
+
+	public class Uniform : Object {
+
+		public string name { get; set; }
+
+		public string title { get; set; }
+		public string holds { get; set; }
+		public int idx { get; set; default = 0; }
+
+		public string min { get; set; }
+		public string max { get; set; }
+		public string default { get; set; }
+
+	}
+
+	protected Uniform parse_uniform ( string name, Json.Node node) throws Error {
+		var u = Json.gobject_deserialize (typeof (Uniform), node) as Uniform;
+		u.name = name;
+		return u;
 	}
 
 }

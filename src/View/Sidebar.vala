@@ -64,7 +64,9 @@ public class App.View.Sidebar : View.Base {
 		var sorter = new NumericSorter (expression);
 		var model = new SortListModel (current_project.layers, sorter);
 		list.bind_model (model, (obj) => {
-			return new Widget.LayerRow (obj as Layer);
+			return new Widget.LayerRow (obj as Layer) {
+				expanded = true
+			};
 		});
 	}
 

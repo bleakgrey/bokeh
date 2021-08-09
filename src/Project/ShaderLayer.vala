@@ -1,41 +1,88 @@
 using Gsk;
+using Gtk;
 
 public class App.ShaderLayer : Layer {
 
-	protected int needs_textures = 0;
-
 	public string? shader_name { get; set; }
+	public HashTable<string,string> uniforms = new HashTable<string,string> (str_hash, str_equal);
 
-	public Shader get_shader_preset () {
+	int _needs_textures = 0;
+
+	public Shader get_asset () {
 		return library.asset_cache.get (shader_name) as Shader;
 	}
 
-	public Bytes get_node_arguments (GLShader shader) {
-		var builder = new ShaderArgsBuilder (shader, null);
-		return builder.to_args ();
-	}
-
 	public override void start_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {
-		needs_textures = 0;
+		_needs_textures = 0;
 
-		var preset = get_shader_preset ();
-		needs_textures = preset.get_node ().get_n_textures ();
-		//warning ("Textures for this layer: "+needs_textures.to_string ());
+		var asset = get_asset ();
+		_needs_textures = asset.get_instance ().get_n_textures ();
+		//warning ("Textures for this layer: "+_needs_textures.to_string ());
 
-		var node = preset.get_node ();
-		var node_args = get_node_arguments (node);
-		snapshot.push_gl_shader (node, bounds, node_args);
+		var glshader = asset.get_instance ();
+
+		var arg_builder = new ShaderArgsBuilder (glshader, null);
+		uniforms.for_each ((name) => {
+			var schema = asset.uniforms[name];
+			var idx = schema.idx;
+			var val = uniforms[name];
+
+			switch (schema.holds) {
+				case "float":
+					var fval = double.parse (val);
+					arg_builder.set_float (idx, (float) fval);
+					break;
+			}
+		});
+
+		var glshader_args = arg_builder.to_args ();
+
+		snapshot.push_gl_shader (glshader, bounds, glshader_args);
 	}
 
 	public override void end_snapshot (Gtk.Snapshot snapshot, Graphene.Rect bounds, App.View.Canvas canvas) {
-		for (uint i = 0; i < needs_textures; i++ ) {
+		for (uint i = 0; i < _needs_textures; i++ ) {
 			snapshot.gl_shader_pop_texture ();
 		}
 		snapshot.pop ();
 	}
 
-	public void build_options (Widget.LayerRow row) {
+	public override void build_options (Widget.LayerRow row) {
+		var asset = get_asset ();
+		asset.uniforms.foreach ((name, uniform) => {
+			row.add (get_uniform_controller (uniform));
+		});
+	}
 
+	Gtk.Widget? get_uniform_controller (Shader.Uniform uniform) {
+		var row = new Adw.ActionRow () {
+			title = uniform.title
+		};
+
+		switch (uniform.holds) {
+			case "float":
+				double min = double.parse (uniform.min);
+				double max = double.parse (uniform.max);
+				double step = 0.1;
+				double def = double.parse (uniform.default);
+
+				var slider = new Scale.with_range (Orientation.HORIZONTAL, min, max, step) {
+					hexpand = true,
+					width_request = 150
+				};
+				var adj = slider.get_adjustment ();
+				adj.value_changed.connect (() => {
+					var nval = adj.value.to_string ();
+					uniforms[uniform.name] = nval;
+					render ();
+				});
+
+				adj.value = def;
+				row.add_suffix (slider);
+				break;
+		}
+
+		return row;
 	}
 
 }
