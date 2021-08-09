@@ -16,15 +16,14 @@ public class App.ShaderLayer : Layer {
 		_needs_textures = 0;
 
 		var asset = get_asset ();
-		_needs_textures = asset.get_instance ().get_n_textures ();
+		var glshader = asset.instance;
+		_needs_textures = glshader.get_n_textures ();
 		//warning ("Textures for this layer: "+_needs_textures.to_string ());
-
-		var glshader = asset.get_instance ();
 
 		var arg_builder = new ShaderArgsBuilder (glshader, null);
 		uniforms.for_each ((name) => {
 			var schema = asset.uniforms[name];
-			var idx = schema.idx;
+			var idx = glshader.find_uniform_by_name (name);
 			var val = uniforms[name];
 
 			switch (schema.holds) {

@@ -3,8 +3,13 @@ public class App.Shader : Asset, Json.Serializable {
 	public Bytes fragment_shader { get; set; }
 	public HashTable<string, Uniform> uniforms { get; set; }
 
-	public Gsk.GLShader get_instance () {
-		return new Gsk.GLShader.from_bytes (fragment_shader);
+	Gsk.GLShader _instance = null;
+	public Gsk.GLShader instance {
+		get {
+			if (_instance == null)
+				_instance = new Gsk.GLShader.from_bytes (fragment_shader);
+			return _instance;
+		}
 	}
 
 	public static Shader parse_shader (File dir) throws Error {
@@ -55,7 +60,6 @@ public class App.Shader : Asset, Json.Serializable {
 
 		public string title { get; set; }
 		public string holds { get; set; }
-		public int idx { get; set; default = 0; }
 
 		public string min { get; set; }
 		public string max { get; set; }

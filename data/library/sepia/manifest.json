@@ -1,7 +1,7 @@
 {
 	"name": "Sepia",
 	"uniforms": {
-		"intensity": {
+		"amount": {
 			"title": "Intensity",
 			"holds": "float",
 			"min": "0",
